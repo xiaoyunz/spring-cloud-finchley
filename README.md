@@ -1,2 +1,3 @@
 # spring-cloud-finchley
-spring cloud finchley 亲自验证实例教程
+使用版本：Spring Boot 2.0.4 + Spring Cloud Finchley.SR1
+
