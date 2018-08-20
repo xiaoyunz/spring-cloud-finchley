@@ -1,6 +1,15 @@
 # spring-cloud-finchley
 
-使用版本：Spring Boot 2.0.4 + Spring Cloud Finchley.SR1
+    使用版本：Spring Boot 2.0.4 + Spring Cloud Finchley.SR1
+
+    运行环境要求：
+
+    1、apache-tomcat-8.5 +
+
+    2、jdk 1.8 +
+
+    3、Maven 3.2 +
+
 
    微服务架构图如下：
 ![Image text](https://raw.githubusercontent.com/xiaoyunz/spring-cloud-finchley/master/img-folder/Spring%20cloud%20%E6%9E%B6%E6%9E%84%E5%9B%BE%EF%BC%88%E6%97%A0%E5%AE%9E%E9%99%85%E4%B8%9A%E5%8A%A1%E6%B5%81%E7%A8%8B%EF%BC%89.jpg)
