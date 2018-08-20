@@ -1,0 +1,62 @@
+server:
+  port: 8763
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.14.127:8761/eureka/
+spring:
+  rabbitmq:
+    host: 192.168.174.105
+    port: 5672
+    username: guest
+    password: guest
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://192.168.14.127:9411/
+  cloud:
+    inetutils:
+      preferred-networks: 192.168.14.
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+  datasource:
+    name: mysql_db
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql://192.168.174.105:3306/db1?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&useSSL=false
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-size: 2
+      min-idle: 2
+      max-active: 10
+      max-wait: 60000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filters: stat
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+mybatis:
+  type-aliases-package: com.zhouxy.entity
+  mapper-locations: classpath:mapper/mybatis/*/*Mapper.xml
+  config-location: classpath:mapper/mybatis/mybatis-config.xml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+service-info:
+  service-name: ${spring.application.name}
+  service-ip: ${spring.cloud.client.ip-address}
+  service-port: ${server.port}
+  version: 2.0

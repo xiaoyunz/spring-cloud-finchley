@@ -1,0 +1,2 @@
+spring-boot-admin-2.0版本自动发现注册中心所有服务，做集中监控。与1.x版本差别很大。
+官网地址：http://codecentric.github.io/spring-boot-admin/2.0.2/

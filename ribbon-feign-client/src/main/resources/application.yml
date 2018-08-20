@@ -1,0 +1,35 @@
+server:
+  port: 8764
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.14.127:8761/eureka/
+
+#配置服务链路追踪zipkin和采样率1.0表示全部采样
+spring:
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://192.168.14.127:9411/
+  application:
+    name: ribbon-feign-client
+  cloud:
+    inetutils:
+      preferred-networks: 192.168.14.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+feign:
+  hystrix:
+    enabled: true
+    
+service-info:
+  service-name: ${spring.application.name}
+  service-ip: ${spring.cloud.client.ip-address}
+  service-port: ${server.port}

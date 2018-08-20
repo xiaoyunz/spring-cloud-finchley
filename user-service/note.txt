@@ -1,0 +1,10 @@
+@RefreshScope    //启用消息总线必须添加此注解,在需要使用的类上或者方法上添加
+发送post请求进行消息总线刷新，选择任意一台总线上的服务即可
+http://192.168.14.127:8762/actuator/bus-refresh
+
+另外，/actuator/bus-refresh接口可以指定服务，即使用"destination"参数，
+比如 "/actuator/bus-refresh?destination=user-service:**" 即刷新服务名为user-service的所有服务。
+
+访问地址，查看version更新情况
+http://192.168.14.127:8762/userController/info
+http://192.168.14.127:8763/blogController/info

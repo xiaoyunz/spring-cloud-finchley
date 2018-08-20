@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: user-service
+  cloud:
+    config:
+      #集群配置中心时使用发现功能
+      discovery:
+        enabled: true
+        service-id: config-server
+#      uri: http://192.168.14.127:8769
+      fail-fast: true
+  profiles:
+    active: dev

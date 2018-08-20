@@ -1,0 +1,32 @@
+server:
+  port: 8766
+spring:
+  application:
+    name: turbine-monitor-server
+  cloud:
+    inetutils:
+      preferred-networks: 192.168.14.
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.14.127:8761/eureka/
+turbine:
+  #监控多个服务使用逗号分隔
+  app-config: ribbon-feign-client
+  aggregator:
+    clusterConfig: default
+  clusterNameExpression: new String("default")
+  combine-host: true
+  instanceUrlSuffix:
+    default: actuator/hystrix.stream
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      cors:
+        allowed-origins: '*'
+        allowed-methods: '*'

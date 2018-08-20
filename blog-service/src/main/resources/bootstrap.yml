@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: blog-service
+  cloud:
+    config:
+      uri: http://192.168.14.127:8769
+      fail-fast: true
+  profiles:
+    active: dev

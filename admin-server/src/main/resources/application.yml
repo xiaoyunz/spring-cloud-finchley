@@ -1,0 +1,41 @@
+server:
+  port: 9000
+#配置admin登录ui只用的用户名和密码
+eureka:
+  instance:
+    metadata-map:
+      user.name: admin
+      user.password: 123456
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    leaseRenewalIntervalInSeconds: 10
+    health-check-url-path: /actuator/health
+  client:
+    registryFetchIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://192.168.14.127:8761/eureka/
+#安全认证必须与提供给eureka的用户名和密码一致
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456
+  #使用认证方式
+  profiles:
+    active:
+    - secure
+  application:
+    name: admin-server
+  cloud:
+    inetutils:
+      preferred-networks: 192.168.14.
+management:
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    

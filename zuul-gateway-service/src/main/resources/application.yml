@@ -1,0 +1,71 @@
+server:
+  port: 8765
+  
+# 配置注册中心地址，以及此服务的注册实例名（显示ip + port）
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.14.127:8761/eureka/
+      
+#在多网卡环境下，优先使用preferred-networks配置的ip注册到注册中心（支持正则表达式过滤）
+spring:
+  sleuth:
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://192.168.14.127:9411/
+  application:
+    name: zuul-gateway-service
+  cloud:
+    inetutils:
+      preferred-networks: 192.168.14.
+      
+#配置服务的网关路由
+zuul:
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+  routes:
+    api-1:
+      path: /user-api/**
+      serviceId: user-service
+      sensitiveHeaders: null
+    api-2:
+      path: /blog-api/**
+      serviceId: blog-service
+      sensitiveHeaders: null
+    api-3:
+      path: /ribbon-feign-api/**
+      serviceId: ribbon-feign-client
+      sensitiveHeaders: null
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 2000
+            
+#开启网关服务中的ribbon负责均衡
+ribbon:
+  ReadTimeout: 20000
+  ConnectTimeout: 20000
+  eureka:
+    enabled: true
+#对指定的服务做负载均衡
+ribbon-feign-client:
+  ribbon:
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList
+    listOfServers: 192.168.14.127:8764,192.168.14.128:8765
+    ConnectTimeout: 1000
+    ReadTimeout: 3000
+    MaxTotalHttpConnections: 500
+    MaxConnectionsPerHost: 100
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
