@@ -1,0 +1,13 @@
+server:
+  port: 8502
+spring:
+  cloud:
+    consul:
+      host: 192.168.14.127
+      port: 8500
+      discovery:
+        instance-id: consul-server
+        health-check-path: ${management.contextPath}/health
+        health-check-interval: 15s
+  application:
+    name: consul-server
