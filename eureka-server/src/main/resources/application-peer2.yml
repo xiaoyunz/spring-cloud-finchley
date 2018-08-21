@@ -3,12 +3,16 @@ server:
   
 #在多网卡环境下，优先使用preferred-networks配置的ip注册到注册中心（支持正则表达式过滤）
 spring:
+  application:
+    name: eureka-server
   cloud:
     inetutils:
       preferred-networks: 192.168.14.
       
 #配置注册中心地址，设置ip优先，也可以使用hostname
 eureka:
+  server:
+    eviction-interval-timer-in-ms: 5000
   instance:
     hostname: peer2
     prefer-ip-address: true

@@ -1,5 +1,9 @@
 模拟高可用集群
-启动时，切换bootstrap.yml中的spring.profiles.active
+
 在C:\Windows\System32\drivers\etc\hosts添加
 192.168.14.127  peer1
 192.168.14.127  peer2
+
+启动eureka-server：
+java -jar eureka-server-0.0.1-SNAPSHOT.jar - -spring.profiles.active=peer1
+java -jar eureka-server-0.0.1-SNAPSHOT.jar - -spring.profiles.active=peer2
