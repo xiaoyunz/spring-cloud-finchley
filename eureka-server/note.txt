@@ -1,4 +1,4 @@
-模拟高可用集群
+搭建高可用的注册中心
 
 在C:\Windows\System32\drivers\etc\hosts添加
 192.168.14.127  peer1
