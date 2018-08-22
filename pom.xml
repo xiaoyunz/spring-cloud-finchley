@@ -15,8 +15,6 @@
 		<module>turbine-monitor-server</module>
 		<module>admin-server</module>
 		<module>config-server</module>
-		<module>log-service</module>
-		<module>uaa-service</module>
 		<module>consul-server</module>
 		<module>zipkin-server</module>
 	</modules>
