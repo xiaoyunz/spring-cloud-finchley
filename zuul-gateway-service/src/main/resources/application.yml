@@ -25,9 +25,17 @@ spring:
       
 #配置服务的网关路由
 zuul:
+  ribbonIsolationStrategy: THREAD
+  threadPool:
+    useSeparateThreadPools: true
+    threadPoolKeyPrefix: zuulgateway
+  max:
+    host:
+      max-per-route-connections: 200
+      max-total-connections: 500
   host:
-    connect-timeout-millis: 20000
-    socket-timeout-millis: 20000
+    socket-timeout-millis: 5000
+    connect-timeout-millis: 10000
   routes:
     api-1:
       path: /user-api/**
@@ -41,7 +49,17 @@ zuul:
       path: /ribbon-feign-api/**
       serviceId: ribbon-feign-client
       sensitiveHeaders: null
+feign:
+  hystrix:
+    enabled: true
+
 hystrix:
+  threadpool:
+    default:
+      coreSize: 20
+      maximumSize: 50
+      maxQueueSize: -1
+      allowMaximumSizeToDivergeFromCoreSize: true
   command:
     default:
       execution:
@@ -49,7 +67,7 @@ hystrix:
           thread:
             timeoutInMilliseconds: 2000
             
-#开启网关服务中的ribbon负责均衡
+#开启网关服务中的ribbon负载均衡
 ribbon:
   ReadTimeout: 20000
   ConnectTimeout: 20000
@@ -65,7 +83,9 @@ ribbon-feign-client:
     MaxTotalHttpConnections: 500
     MaxConnectionsPerHost: 100
 management:
+  security:
+    enabled: false
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: hystrix.stream
