@@ -32,7 +32,7 @@ public class RibbonFeignClientApplication {
 	}
 	
 	/**
-	 * 使用Ribbon + RestTemplate + 负责均衡调用服务
+	 * 使用 RestTemplate + Ribbon负载均衡调用服务
 	 */
 	@Bean
 	@LoadBalanced

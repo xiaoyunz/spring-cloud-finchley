@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhouxy.dao.IUserDao">
+
+	<!-- 查询用户 -->
+	<select id="findByUsername" resultType="User" parameterType="java.lang.String">
+		select * from tbl_user_info where username = #{username}
+	</select>
+	
+	<!-- 创建用户 -->
+	<insert id="createUser" parameterType="User">
+		insert into tbl_user_info(username,password,gender,age,birthday) values (#{username},#{password},#{gender},#{age},#{birthday})
+	</insert>
+	
+	<!-- 更新用户 -->
+	<update id="modifyUser" parameterType="User">
+		update tbl_user_info set password = #{password},gender = #{gender},age = #{age},birthday = #{birthday} where username = #{username}
+	</update>
+	
+	<!-- 删除用户 -->
+	<delete id="deleteUser" parameterType="java.lang.Integer">
+		delete from tbl_user_info where id = #{id}
+	</delete>
+	
+	
+</mapper>

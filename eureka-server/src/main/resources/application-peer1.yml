@@ -10,6 +10,8 @@ spring:
       preferred-networks: 192.168.14.
       
 #配置注册中心地址，设置ip优先，也可以使用hostname
+# eureka.instance.prefer-ip-address  表示将自己的IP注册到Eureka Server上，
+# 如果不配置,会将当前服务提供者所在的主机名注册到Eureka Server上。
 # 清理间隔（单位毫秒，默认是60*1000），开发环境设置如下可快速移除不可用的服务，生成环境建议别改
 eureka:
   server:

@@ -20,14 +20,54 @@ spring:
   cloud:
     inetutils:
       preferred-networks: 192.168.14.
+      
 management:
+  security:
+    enabled: false
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: hystrix.stream
 feign:
   hystrix:
     enabled: true
+  compression:
+    #配置请求压缩，默认为GZIP压缩
+    request:
+      enabled: true
+      #配置压缩支持的MIME TYPE
+      mime-types: text/xml,application/xml,application/json
+      #配置压缩数据大小的下限
+      min-request-size: 2048
+    #配置响应压缩
+    response:
+      enabled: true
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+ribbon:
+  eureka:
+    enabled: true
+  #请求处理的超时时间，单位毫秒
+  ConnectTimeout: 6000
+  #请求处理的超时时间，单位毫秒
+  ReadTimeout: 6000
+  #对当前实例的重试次数
+  MaxAutoRetries: 3
+  #切换实例的重试次数
+  MaxAutoRetriesNextServer: 3
+  
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000
     
 service-info:
   service-name: ${spring.application.name}
