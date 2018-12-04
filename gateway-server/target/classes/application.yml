@@ -1,0 +1,82 @@
+spring:
+  redis:
+      host: localhost
+      port: 6379
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #默认true，会为所有服务都进行转发操作，通过这种方式就不用为每个服务都去配置转发规则
+          #当新加了服务的时候，不用去配置路由规则和重启网关。
+          enabled: true
+          #配置兼容小写服务名
+          lowerCaseServiceId: true
+      routes:
+        - id: service1_v1
+          uri: http://localhost:8081/v1
+          predicates:
+            - Path=/test
+            - Weight=service1, 95
+            
+        - id: service1_v2
+          uri: http://localhost:8081/v2
+          predicates:
+            - Path=/test
+            - Weight=service1, 5
+            
+        - id: loadbalancer_Route
+          #LoadBalancerClient
+          uri: lb://service1
+          predicates:
+            - Path=/service1/**
+            
+        - id: rateLimit_route
+          uri: http://localhost:8000/hello/rateLimit
+          order: 0
+          predicates:
+            - Path=/test/rateLimit
+          filters:
+            #Redis RateLimiter
+            #filter名称必须是RequestRateLimiter
+            - name: RequestRateLimiter
+              args:
+                #使用SpEL按名称引用bean
+                key-resolver: "#{@remoteAddrKeyResolver}"
+                #允许用户每秒处理多少个请求
+                redis-rate-limiter.replenishRate: 10
+                #令牌桶的容量，允许在一秒钟内完成的最大请求数
+                redis-rate-limiter.burstCapacity: 20
+
+eureka:
+  client:
+    service-url: #指定注册中心的地址，以便使用服务发现功能
+      defaultZone: http://localhost:8761/eureka/
+
+server:
+  ssl:
+    key-alias: spring
+    enabled: true
+    key-password: spring
+    key-store: classpath:selfsigned.jks
+    key-store-type: JKS
+    key-store-provider: SUN
+    key-store-password: spring
+      
+#开启端点
+management:
+  endpoints:
+    web:
+      exposure:
+        #可以更明确的指定监控端点列表
+        include: '*'
+  security:
+    enabled: false
+
+#很方便的指定每个包的日志级别
+logging:
+  level: 
+    com.zhouxy.gateway.filter: debug
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
+    reactor.ipc.netty: DEBUG
