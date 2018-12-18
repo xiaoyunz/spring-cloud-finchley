@@ -18,6 +18,7 @@
 		<module>config-server</module>
 		<module>consul-server</module>
 		<module>zipkin-server</module>
+    	<module>gateway-server</module>
   </modules>
 
 	<parent>
